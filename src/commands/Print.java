@@ -29,12 +29,11 @@ public class Print implements CommandWithoutParams {
             for (String figure : fm.getFigures()) {
                 figure = figure.trim();
 
-                if (figure.startsWith("<rect"))
-                    toAppend = rp.print(figure);
-                else if (figure.startsWith("<circle"))
-                    toAppend = cp.print(figure);
-                else
-                    toAppend = lp.print(figure);
+                switch (figure.split(" ")[0]) {
+                    case "<rect" -> toAppend = rp.print(figure);
+                    case "<circle" -> toAppend = cp.print(figure);
+                    default -> toAppend = lp.print(figure);
+                }
 
                 output.append(idx).append(". ").append(toAppend).append("\n");
                 idx++;

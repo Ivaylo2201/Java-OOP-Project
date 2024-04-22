@@ -36,29 +36,28 @@ public class Within implements CommandWithParams {
         try {
             StringBuilder output = new StringBuilder();
             String toAppend;
-            String figureType = args.getFirst();
+            String regionType = args.getFirst();
             int idx = 1;
             List<String> properties = args.subList(1, args.size());
 
-            if (figureType.equals("rectangle"))
-                region = new RectangleRegion(properties);
-            else if (figureType.equals("circle"))
-                region = new CircleRegion(properties);
-            else {
-                System.out.println("Invalid region type!");
-                return;
+            switch (regionType) {
+                case "rectangle" -> region = new RectangleRegion(properties);
+                case "circle" -> region = new CircleRegion(properties);
+                default -> {
+                    System.out.println("Invalid region type!");
+                    return;
+                }
             }
 
             for (String figure : fm.getFigures()) {
                 figure = figure.trim();
 
                 if (region.isWithin(figure)) {
-                    if (figure.startsWith("<rect"))
-                        toAppend = rp.print(figure);
-                    else if (figure.startsWith("<circle"))
-                        toAppend = cp.print(figure);
-                    else
-                        toAppend = lp.print(figure);
+                    switch (figure.trim().split(" ")[0]) {
+                        case "<rect" -> toAppend = rp.print(figure);
+                        case "<circle" -> toAppend = cp.print(figure);
+                        default -> toAppend = lp.print(figure);
+                    }
 
                     output.append(idx).append(". ").append(toAppend).append("\n");
                     idx++;
@@ -68,7 +67,7 @@ public class Within implements CommandWithParams {
             if (!output.isEmpty())
                 System.out.print(output);
             else
-                System.out.println("No figures are located within " + figureType + " " + String.join(" ", properties));
+                System.out.println("No figures are located within " + regionType + " " + String.join(" ", properties));
 
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             System.out.println("Invalid region properties!");

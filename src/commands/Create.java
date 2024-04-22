@@ -38,7 +38,7 @@ public class Create implements CommandWithParams {
                 default -> null;
             };
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid figure properties!");
+            System.out.println("Invalid number of properties!");
         }
 
         if (figure == null) {

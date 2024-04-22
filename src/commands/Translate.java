@@ -1,6 +1,7 @@
 package commands;
 
 import contracts.CommandWithParams;
+import contracts.Figure;
 import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
@@ -18,19 +19,19 @@ public class Translate implements CommandWithParams {
     private static final CircleProcessor cp = new CircleProcessor();
     private static final LineProcessor lp = new LineProcessor();
     private static StringBuilder translatedContent;
+    private static Figure translatedFigure;
 
     private void translateAll(List<String> figures, int verticalTranslation, int horizontalTranslation) {
-        String figure;
+        for (String figure : figures) {
 
-        for (String f : figures) {
-            figure = f.trim();
+            switch (figure.trim().split(" ")[0]) {
+                case "<rect" -> translatedFigure = new Rectangle(rp.getProperties(figure));
+                case "<circle" -> translatedFigure = new Circle(cp.getProperties(figure));
+                case "<line" -> translatedFigure = new Line(lp.getProperties(figure));
+            }
 
-            if (figure.startsWith("<rect"))
-                translatedContent.append(new Rectangle(rp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
-            else if (figure.startsWith("<circle"))
-                translatedContent.append(new Circle(cp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
-            else if (figure.startsWith("<line"))
-                translatedContent.append(new Line(lp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
+            translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
+
         }
         System.out.println("Successfully translated all figures!");
     }
@@ -38,22 +39,24 @@ public class Translate implements CommandWithParams {
     private void translateOne(List<String> figures, int translateIndex, int verticalTranslation, int horizontalTranslation) {
         String figure;
 
-        if (translateIndex <= 0 || translateIndex > figures.size()) {
+        if (translateIndex <= 0 || translateIndex > figures.size())
             System.out.println("Invalid figure index!");
-        } else {
+        else
             System.out.println("Figure " + translateIndex + " translated successfully!");
-        }
+
 
         for (int i = 0; i < figures.size(); i++) {
             figure = figures.get(i);
 
             if (i == translateIndex - 1) {
-                if (figure.trim().startsWith("<rect"))
-                    translatedContent.append(new Rectangle(rp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
-                else if (figure.trim().startsWith("<circle"))
-                    translatedContent.append(new Circle(cp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
-                else if (figure.trim().startsWith("<line"))
-                    translatedContent.append(new Line(lp.getProperties(figure)).translate(verticalTranslation, horizontalTranslation));
+                switch (figure.trim().split(" ")[0]) {
+                    case "<rect" -> translatedFigure = new Rectangle(rp.getProperties(figure));
+                    case "<circle" -> translatedFigure = new Circle(cp.getProperties(figure));
+                    case "<line" -> translatedFigure = new Line(lp.getProperties(figure));
+                }
+
+                translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
+
             } else {
                 translatedContent.append(figure).append("\n");
             }
@@ -79,11 +82,11 @@ public class Translate implements CommandWithParams {
 
             translatedContent = new StringBuilder().append("<?xml version=\"1.0\" standalone=\"no\"?>").append("\n").append("<!DOCTYPE svg PUBLIC>").append("\n").append("<svg>").append("\n");
 
-            if (translateOne) {
+            if (translateOne)
                 this.translateOne(figures, Integer.parseInt(args.getFirst()), Integer.parseInt(args.get(1).split("=")[1]), Integer.parseInt(args.get(2).split("=")[1]));
-            } else {
+            else
                 this.translateAll(figures, Integer.parseInt(args.getFirst().split("=")[1]), Integer.parseInt(args.get(1).split("=")[1]));
-            }
+
 
             translatedContent.append("</svg>");
 
