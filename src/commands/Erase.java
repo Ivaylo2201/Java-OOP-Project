@@ -27,11 +27,11 @@ public class Erase implements CommandWithParams {
 
             List<String> figures = fm.getFigures();
 
-            if (deleteIndex <= 0 || deleteIndex > figures.size()) {
+            if (deleteIndex <= 0 || deleteIndex > figures.size())
                 System.out.println("There is no figure number " + deleteIndex + "!");
-            } else {
+            else
                 System.out.println("Figure " + deleteIndex + " erased successfully!");
-            }
+
 
             StringBuilder updatedContent = new StringBuilder().append("<?xml version=\"1.0\" standalone=\"no\"?>").append("\n").append("<!DOCTYPE svg PUBLIC>").append("\n").append("<svg>").append("\n");
 

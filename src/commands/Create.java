@@ -26,12 +26,11 @@ public class Create implements CommandWithParams {
             return;
         }
 
-        String figureType = args.getFirst();
         List<String> properties = args.subList(1, args.size());
         Figure figure = null;
 
         try {
-            figure = switch (figureType) {
+            figure = switch (args.getFirst()) {
                 case "rectangle" -> new Rectangle(properties);
                 case "circle" -> new Circle(properties);
                 case "line" -> new Line(properties);

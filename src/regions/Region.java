@@ -14,29 +14,19 @@ public abstract class Region {
     public boolean isWithin(String figure) {
         List<String> properties;
 
-        if (figure.startsWith("<rect")) {
-            properties = rp.getProperties(figure);
-            int x = Integer.parseInt(properties.getFirst());
-            int y = Integer.parseInt(properties.get(1));
-            int width = Integer.parseInt(properties.get(2));
-            int height = Integer.parseInt(properties.get(3));
-
-            return this.checkRectangle(x, y, width, height);
-        } else if (figure.startsWith("<circle")) {
-            properties = cp.getProperties(figure);
-            int cx = Integer.parseInt(properties.getFirst());
-            int cy = Integer.parseInt(properties.get(1));
-            int r = Integer.parseInt(properties.get(2));
-
-            return this.checkCircle(cx, cy, r);
-        } else {
-            properties = lp.getProperties(figure);
-            int x1 = Integer.parseInt(properties.getFirst());
-            int y1 = Integer.parseInt(properties.get(1));
-            int x2 = Integer.parseInt(properties.get(2));
-            int y2 = Integer.parseInt(properties.get(3));
-
-            return this.checkLine(x1, y1, x2, y2);
+        switch (figure.trim().split(" ")[0]) {
+            case "<rect" -> {
+                properties = rp.getProperties(figure);
+                return this.checkRectangle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)), Integer.parseInt(properties.get(3)));
+            }
+            case "<circle" -> {
+                properties = cp.getProperties(figure);
+                return this.checkCircle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)));
+            }
+            default -> {
+                properties = lp.getProperties(figure);
+                return this.checkLine(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)), Integer.parseInt(properties.get(3)));
+            }
         }
     }
 
