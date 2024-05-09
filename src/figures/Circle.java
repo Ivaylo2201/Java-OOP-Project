@@ -4,12 +4,20 @@ import contracts.Figure;
 
 import java.util.List;
 
+/**
+ * Represents a circle figure in an SVG.
+ */
 public class Circle implements Figure {
     private String cx;
     private String cy;
     private final String r;
     private final String fill;
 
+    /**
+     * Constructs a circle with the specified properties.
+     *
+     * @param properties A List of String properties including cx, cy, r, and fill.
+     */
     public Circle(List<String> properties) {
         this.cx = properties.get(0);
         this.cy = properties.get(1);
@@ -17,11 +25,23 @@ public class Circle implements Figure {
         this.fill = properties.get(3);
     }
 
+    /**
+     * Returns the SVG representation of the circle.
+     *
+     * @return The SVG representation of the circle.
+     */
     @Override
     public String toString() {
         return String.format("    <circle cx=\"%s\" cy=\"%s\" r=\"%s\" fill=\"%s\"/>\n", this.cx, this.cy, this.r, this.fill);
     }
 
+    /**
+     * Translates the circle by the specified vertical and horizontal distances.
+     *
+     * @param vertical   The vertical distance to translate the circle.
+     * @param horizontal The horizontal distance to translate the circle.
+     * @return The SVG representation of the translated circle.
+     */
     @Override
     public String translate(int vertical, int horizontal) {
         this.cx = Integer.toString(Integer.parseInt(this.cx) + horizontal);
@@ -29,6 +49,11 @@ public class Circle implements Figure {
         return this.toString();
     }
 
+    /**
+     * Checks if the circle has valid properties.
+     *
+     * @return true if the circle has valid properties, otherwise false.
+     */
     @Override
     public boolean isValid() {
         String regex = "-?\\d+(\\.\\d+)?";

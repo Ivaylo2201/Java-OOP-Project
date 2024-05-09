@@ -6,11 +6,20 @@ import processors.RectangleProcessor;
 
 import java.util.List;
 
+/**
+ * The Region abstract class represents a region in a graphical context.
+ */
 public abstract class Region {
     private static final RectangleProcessor rp = new RectangleProcessor();
     private static final LineProcessor lp = new LineProcessor();
     private static final CircleProcessor cp = new CircleProcessor();
 
+    /**
+     * Checks if a figure is within the region.
+     *
+     * @param figure The string representation of the figure.
+     * @return true if the figure is within the region, false otherwise.
+     */
     public boolean isWithin(String figure) {
         List<String> properties;
 

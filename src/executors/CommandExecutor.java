@@ -8,10 +8,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+/**
+ * The CommandExecutor class is
+ * responsible for executing various commands.
+ */
 public class CommandExecutor {
     private final HashMap<String, CommandWithoutParams> commandsWithoutParams = new HashMap<>();
     private final HashMap<String, CommandWithParams> commandsWithParams = new HashMap<>();
 
+    /**
+     * Constructs a new CommandExecutor object
+     * and initializes the supported commands.
+     */
     public CommandExecutor() {
         this.commandsWithParams.put("open", new Open());
         this.commandsWithoutParams.put("close", new Close());
@@ -26,8 +35,13 @@ public class CommandExecutor {
         this.commandsWithParams.put("within", new Within());
     }
 
+    /**
+     * Executes the given command along with the
+     * arguments if it exists in one of the hashmaps.
+     * @param commands An array of strings representing the commands and their arguments.
+     */
     public void execute(String[] commands) {
-        String command = commands[0];
+        String command = commands[0].toLowerCase();
         List<String> args = new ArrayList<>(List.of(commands)).subList(1, commands.length);
 
         if (this.commandsWithoutParams.containsKey(command)) {

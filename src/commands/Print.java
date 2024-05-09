@@ -8,12 +8,21 @@ import processors.RectangleProcessor;
 
 import java.io.IOException;
 
+/**
+ * The Print class represents a command to print
+ * all figures from the currently opened file.
+ */
 public class Print implements CommandWithoutParams {
     private static final FileManager fm = FileManager.getInstance();
     private static final RectangleProcessor rp = new RectangleProcessor();
     private static final CircleProcessor cp = new CircleProcessor();
     private static final LineProcessor lp = new LineProcessor();
 
+    /**
+     * Iterates over the figures in the opened
+     * file and appends them to a StringBuilder
+     * using the corresponding processor
+     */
     @Override
     public void execute() {
         if (fm.file == null) {

@@ -10,10 +10,19 @@ import managers.FileManager;
 
 import java.util.List;
 
+/**
+ * The Create class represents a command to
+ * create a figure and add it to the current file.
+ */
 public class Create implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private static final FigureCreator figureCreator = new FigureCreator();
 
+    /**
+     * Creates a new figure instance based on user input
+     * and appends in to the opened file if it is valid
+     * @param args A list of strings representing the command arguments.
+     */
     @Override
     public void execute(List<String> args) {
         if (fm.file == null) {
@@ -30,7 +39,7 @@ public class Create implements CommandWithParams {
         Figure figure = null;
 
         try {
-            figure = switch (args.getFirst()) {
+            figure = switch (args.getFirst().toLowerCase()) {
                 case "rectangle" -> new Rectangle(properties);
                 case "circle" -> new Circle(properties);
                 case "line" -> new Line(properties);

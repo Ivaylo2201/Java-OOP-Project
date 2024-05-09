@@ -4,9 +4,17 @@ import managers.FileManager;
 
 import java.io.*;
 
+/**
+ * A utility class for creating figures in an SVG file.
+ */
 public class FigureCreator {
     private static final FileManager fm = FileManager.getInstance();
 
+    /**
+     * Inserts the specified figure into the current SVG file.
+     *
+     * @param figure The SVG representation of the figure to be added.
+     */
     public void create(String figure) {
         try {
             String line;

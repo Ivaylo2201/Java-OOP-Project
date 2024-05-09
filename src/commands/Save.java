@@ -8,9 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * The Save class represents a command
+ * to save the currently opened file.
+ */
 public class Save implements CommandWithoutParams {
     private static final FileManager fm = FileManager.getInstance();
 
+    /**
+     * Copies the content of the file to a new
+     * file, deletes the file and renames the new
+     * file to the old one
+     */
     @Override
     public void execute() {
         if (fm.file == null) {

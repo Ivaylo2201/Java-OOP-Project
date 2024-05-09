@@ -9,9 +9,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The Open class represents
+ * a command to open a file.
+ */
 public class Open implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
 
+    /**
+     * Prefills the given file with initial SVG content.
+     * @param file The file to prefill.
+     */
     private void prefill(File file) {
         try {
             String fill = """
@@ -29,6 +37,11 @@ public class Open implements CommandWithParams {
         }
     }
 
+    /**
+     * Checks if a directory exists. If it does open the file,
+     * otherwise create it and then open it
+     * @param args A list of strings representing the command arguments.
+     */
     @Override
     public void execute(List<String> args) {
         if (args.isEmpty()) {

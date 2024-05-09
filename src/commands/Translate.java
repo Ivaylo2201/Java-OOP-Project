@@ -13,6 +13,10 @@ import processors.RectangleProcessor;
 import java.io.*;
 import java.util.List;
 
+/**
+ * The Translate class represents a command to translate figures in an SVG file.
+ * It provides functionality to translate either all figures or a specific figure.
+ */
 public class Translate implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private static final RectangleProcessor rp = new RectangleProcessor();
@@ -21,6 +25,15 @@ public class Translate implements CommandWithParams {
     private static StringBuilder translatedContent;
     private static Figure translatedFigure;
 
+    /**
+     * Helper method:
+     * Translates all figures in the SVG file by the
+     * specified vertical and horizontal distances.
+     *
+     * @param figures               List of strings representing SVG figures.
+     * @param verticalTranslation   The vertical distance to translate.
+     * @param horizontalTranslation The horizontal distance to translate.
+     */
     private void translateAll(List<String> figures, int verticalTranslation, int horizontalTranslation) {
         for (String figure : figures) {
 
@@ -36,6 +49,16 @@ public class Translate implements CommandWithParams {
         System.out.println("Successfully translated all figures!");
     }
 
+    /**
+     * * Helper method:
+     * Translates a specific figure in the SVG file by the
+     * specified vertical and horizontal distances.
+     *
+     * @param figures               List of strings representing SVG figures.
+     * @param translateIndex        The index of the figure to translate.
+     * @param verticalTranslation   The vertical distance to translate.
+     * @param horizontalTranslation The horizontal distance to translate.
+     */
     private void translateOne(List<String> figures, int translateIndex, int verticalTranslation, int horizontalTranslation) {
         String figure;
 
@@ -63,6 +86,14 @@ public class Translate implements CommandWithParams {
         }
     }
 
+    /**
+     * Executes the 'translate' command to
+     * translate figures in the SVG file.
+     *
+     * @param args A List of String arguments. If three arguments are provided,
+     *             it indicates translating a specific figure.
+     *             Otherwise, it indicates translating all figures.
+     */
     @Override
     public void execute(List<String> args) {
         if (fm.file == null) {

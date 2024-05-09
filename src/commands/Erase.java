@@ -7,9 +7,19 @@ import java.io.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * The Erase class represents a command
+ * to erase a figure from the current file.
+ */
 public class Erase implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
 
+    /**
+     * Copies the content of the opened file,
+     * skips figure with the index of 'n',
+     * truncates the file and puts the new content
+     * @param args A list of strings representing the command arguments.
+     */
     @Override
     public void execute(List<String> args) {
         if (fm.file == null) {

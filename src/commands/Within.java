@@ -13,12 +13,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * The Within class represents a command to find
+ * figures within a specified region in an SVG file.
+ */
 public class Within implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private static final RectangleProcessor rp = new RectangleProcessor();
     private static final LineProcessor lp = new LineProcessor();
     private static final CircleProcessor cp = new CircleProcessor();
 
+    /**
+     * Executes the 'within' command to find figures
+     * within a specified region in the SVG file.
+     *
+     * @param args A List of String arguments representing the region and its properties.
+     *             The first argument should be the type of region (rectangle or circle).
+     *             Subsequent arguments should be properties of the region.
+     */
     @Override
     public void execute(List<String> args) {
         Region region;

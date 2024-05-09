@@ -2,7 +2,15 @@ package commands;
 
 import contracts.CommandWithoutParams;
 
+/**
+ * The Help class represents a command to
+ * display information about supported commands.
+ */
 public class Help implements CommandWithoutParams {
+    /**
+     * Print the supported commands
+     * to the console
+     */
     @Override
     public void execute() {
         String sb = """

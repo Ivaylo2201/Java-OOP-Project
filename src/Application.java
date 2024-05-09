@@ -2,7 +2,15 @@ import executors.CommandExecutor;
 
 import java.util.Scanner;
 
+/**
+ * The Application class represents the entry point of the program.
+ */
 public class Application {
+    /**
+     * The main method of the program.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         CommandExecutor ce = new CommandExecutor();
         Scanner scanner = new Scanner(System.in);
