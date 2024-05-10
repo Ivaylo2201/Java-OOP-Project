@@ -63,7 +63,7 @@ public class Translate implements CommandWithParams {
         String figure;
 
         if (translateIndex <= 0 || translateIndex > figures.size())
-            System.out.println("Invalid figure index!");
+            System.out.println("There is no figure number " + translateIndex + "!");
         else
             System.out.println("Figure " + translateIndex + " translated successfully!");
 
