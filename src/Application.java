@@ -20,6 +20,7 @@ public class Application {
 
         while (true) {
             try {
+                System.out.print("> ");
                 commands = scanner.nextLine().split(" ");
 
                 System.out.println();

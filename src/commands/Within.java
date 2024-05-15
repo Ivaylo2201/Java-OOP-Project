@@ -79,7 +79,7 @@ public class Within implements CommandWithParams {
             if (!output.isEmpty())
                 System.out.print(output);
             else
-                System.out.println("No figures are located within " + regionType + " " + String.join(" ", properties));
+                System.out.println("No figures are located within " + regionType + " " + String.join(" ", properties) + "!");
 
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             System.out.println("Invalid region properties!");

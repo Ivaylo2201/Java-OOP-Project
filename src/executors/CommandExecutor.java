@@ -1,8 +1,10 @@
 package executors;
 
+import Exceptions.UnsupportedCommandException;
 import commands.*;
 import contracts.CommandWithParams;
 import contracts.CommandWithoutParams;
+import enums.CommandTypes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,25 +16,25 @@ import java.util.List;
  * responsible for executing various commands.
  */
 public class CommandExecutor {
-    private final HashMap<String, CommandWithoutParams> commandsWithoutParams = new HashMap<>();
-    private final HashMap<String, CommandWithParams> commandsWithParams = new HashMap<>();
+    private final HashMap<CommandTypes, CommandWithoutParams> commandsWithoutParams = new HashMap<>();
+    private final HashMap<CommandTypes, CommandWithParams> commandsWithParams = new HashMap<>();
 
     /**
      * Constructs a new CommandExecutor object
      * and initializes the supported commands.
      */
     public CommandExecutor() {
-        this.commandsWithParams.put("open", new Open());
-        this.commandsWithoutParams.put("close", new Close());
-        this.commandsWithoutParams.put("save", new Save());
-        this.commandsWithParams.put("saveas", new SaveAs());
-        this.commandsWithoutParams.put("help", new Help());
-        this.commandsWithoutParams.put("exit", new Exit());
-        this.commandsWithoutParams.put("print", new Print());
-        this.commandsWithParams.put("create", new Create());
-        this.commandsWithParams.put("erase", new Erase());
-        this.commandsWithParams.put("translate", new Translate());
-        this.commandsWithParams.put("within", new Within());
+        this.commandsWithParams.put(CommandTypes.OPEN, new Open());
+        this.commandsWithoutParams.put(CommandTypes.CLOSE, new Close());
+        this.commandsWithoutParams.put(CommandTypes.SAVE, new Save());
+        this.commandsWithParams.put(CommandTypes.SAVEAS, new SaveAs());
+        this.commandsWithoutParams.put(CommandTypes.HELP, new Help());
+        this.commandsWithoutParams.put(CommandTypes.EXIT, new Exit());
+        this.commandsWithoutParams.put(CommandTypes.PRINT, new Print());
+        this.commandsWithParams.put(CommandTypes.CREATE, new Create());
+        this.commandsWithParams.put(CommandTypes.ERASE, new Erase());
+        this.commandsWithParams.put(CommandTypes.TRANSLATE, new Translate());
+        this.commandsWithParams.put(CommandTypes.WITHIN, new Within());
     }
 
     /**
@@ -41,15 +43,17 @@ public class CommandExecutor {
      * @param commands An array of strings representing the commands and their arguments.
      */
     public void execute(String[] commands) {
-        String command = commands[0].toLowerCase();
-        List<String> args = new ArrayList<>(List.of(commands)).subList(1, commands.length);
+        try {
+            CommandTypes command = CommandTypes.getByValue(commands[0].toLowerCase());
+            List<String> args = new ArrayList<>(List.of(commands)).subList(1, commands.length);
 
-        if (this.commandsWithoutParams.containsKey(command)) {
-            this.commandsWithoutParams.get(command).execute();
-        } else if (this.commandsWithParams.containsKey(command)) {
-            this.commandsWithParams.get(command).execute(args);
-        } else {
-            System.out.println(command + " is not supported");
+            if (args.isEmpty())
+                this.commandsWithoutParams.get(command).execute();
+            else
+                this.commandsWithParams.get(command).execute(args);
+
+        } catch (UnsupportedCommandException e) {
+            System.out.println(commands[0] + " is not supported");
         }
     }
 }
