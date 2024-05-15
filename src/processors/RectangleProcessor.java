@@ -1,12 +1,16 @@
 package processors;
 
+import interfaces.Figure;
+import interfaces.FigureProcessor;
+import figures.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The RectangleProcessor class processes rectangle figures.
  */
-public class RectangleProcessor extends FigureProcessor {
+public class RectangleProcessor implements FigureProcessor {
     /**
      * Retrieves the properties of a rectangle figure.
      *
@@ -15,13 +19,15 @@ public class RectangleProcessor extends FigureProcessor {
      *        of the rectangle (x, y, width, height, fill).
      */
     @Override
-    public List<String> getProperties(String figure) {
+    public List<String> getProperties(Figure figure) {
         List<String> properties = new ArrayList<>();
-        properties.add(getValue(figure, "x"));
-        properties.add(getValue(figure, "y"));
-        properties.add(getValue(figure, "width"));
-        properties.add(getValue(figure, "height"));
-        properties.add(getValue(figure, "fill"));
+        Rectangle rectangle = (Rectangle) figure;
+
+        properties.add(rectangle.getX());
+        properties.add(rectangle.getY());
+        properties.add(rectangle.getWidth());
+        properties.add(rectangle.getHeight());
+        properties.add(rectangle.getFill());
 
         return properties;
     }
@@ -33,7 +39,7 @@ public class RectangleProcessor extends FigureProcessor {
      * @return A formatted string representing the rectangle figure.
      */
     @Override
-    public String print(String figure) {
+    public String print(Figure figure) {
         List<String> properties = getProperties(figure);
         StringBuilder output = new StringBuilder().append("rectangle ");
 

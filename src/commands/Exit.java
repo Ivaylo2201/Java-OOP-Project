@@ -1,6 +1,6 @@
 package commands;
 
-import contracts.CommandWithoutParams;
+import interfaces.CommandWithoutParams;
 
 /**
  * The Exit class represents a

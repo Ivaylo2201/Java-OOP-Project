@@ -1,6 +1,12 @@
 package commands;
 
-import contracts.CommandWithParams;
+import interfaces.CommandWithParams;
+import interfaces.Figure;
+import figures.Circle;
+import figures.Line;
+import figures.Rectangle;
+import helpers.Extractor;
+import interfaces.FigureProcessor;
 import regions.Region;
 import managers.FileManager;
 import processors.CircleProcessor;
@@ -10,7 +16,9 @@ import regions.CircleRegion;
 import regions.RectangleRegion;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -19,9 +27,14 @@ import java.util.NoSuchElementException;
  */
 public class Within implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
-    private static final RectangleProcessor rp = new RectangleProcessor();
-    private static final LineProcessor lp = new LineProcessor();
-    private static final CircleProcessor cp = new CircleProcessor();
+    private final Extractor extractor = new Extractor();
+    private final Map<String, FigureProcessor> processors = new HashMap<>();
+
+    public Within() {
+        this.processors.put("rectangle", new RectangleProcessor());
+        this.processors.put("circle", new CircleProcessor());
+        this.processors.put("line", new LineProcessor());
+    }
 
     /**
      * Executes the 'within' command to find figures
@@ -34,6 +47,7 @@ public class Within implements CommandWithParams {
     @Override
     public void execute(List<String> args) {
         Region region;
+        Figure figure;
 
         if (fm.file == null) {
             System.out.println("No file is opened!");
@@ -61,16 +75,17 @@ public class Within implements CommandWithParams {
                 }
             }
 
-            for (String figure : fm.getFigures()) {
-                figure = figure.trim();
+            for (String line : fm.getFigures()) {
+                line = line.trim();
+
+                switch (line.split(" ")[0]) {
+                    case "<rect" -> figure = new Rectangle(this.extractor.extract("rectangle", line));
+                    case "<circle" -> figure = new Circle(this.extractor.extract("circle", line));
+                    default -> figure = new Line(this.extractor.extract("line", line));
+                }
 
                 if (region.isWithin(figure)) {
-                    switch (figure.trim().split(" ")[0]) {
-                        case "<rect" -> toAppend = rp.print(figure);
-                        case "<circle" -> toAppend = cp.print(figure);
-                        default -> toAppend = lp.print(figure);
-                    }
-
+                    toAppend = this.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                     output.append(idx).append(". ").append(toAppend).append("\n");
                     idx++;
                 }

@@ -1,5 +1,6 @@
 package creators;
 
+import interfaces.Figure;
 import managers.FileManager;
 
 import java.io.*;
@@ -15,7 +16,7 @@ public class FigureCreator {
      *
      * @param figure The SVG representation of the figure to be added.
      */
-    public void create(String figure) {
+    public void create(Figure figure) {
         try {
             String line;
             int idx;
@@ -29,7 +30,7 @@ public class FigureCreator {
             reader.close();
 
             if ((idx = content.indexOf("</svg>")) != -1) {
-                content.insert(idx, figure);
+                content.insert(idx, figure.toString());
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(fm.file));

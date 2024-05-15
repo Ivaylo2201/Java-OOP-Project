@@ -1,6 +1,6 @@
 package figures;
 
-import contracts.Figure;
+import interfaces.Figure;
 
 import java.util.List;
 
@@ -12,6 +12,22 @@ public class Circle implements Figure {
     private String cy;
     private final String r;
     private final String fill;
+
+    public String getCx() {
+        return cx;
+    }
+
+    public String getCy() {
+        return cy;
+    }
+
+    public String getR() {
+        return r;
+    }
+
+    public String getFill() {
+        return fill;
+    }
 
     /**
      * Constructs a circle with the specified properties.

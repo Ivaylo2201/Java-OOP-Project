@@ -1,6 +1,6 @@
 package figures;
 
-import contracts.Figure;
+import interfaces.Figure;
 
 import java.util.List;
 
@@ -14,6 +14,30 @@ public class Line implements Figure {
     private String y2;
     private final String stroke;
     private final String strokeWidth;
+
+    public String getX1() {
+        return x1;
+    }
+
+    public String getY1() {
+        return y1;
+    }
+
+    public String getX2() {
+        return x2;
+    }
+
+    public String getY2() {
+        return y2;
+    }
+
+    public String getStroke() {
+        return stroke;
+    }
+
+    public String getStrokeWidth() {
+        return strokeWidth;
+    }
 
     /**
      * Constructs a line with the specified properties.

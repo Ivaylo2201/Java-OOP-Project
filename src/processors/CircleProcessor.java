@@ -1,12 +1,16 @@
 package processors;
 
+import interfaces.Figure;
+import interfaces.FigureProcessor;
+import figures.Circle;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The CircleProcessor class processes circle figures.
  */
-public class CircleProcessor extends FigureProcessor {
+public class CircleProcessor implements FigureProcessor {
     /**
      * Retrieves the properties of a circle figure.
      *
@@ -14,12 +18,14 @@ public class CircleProcessor extends FigureProcessor {
      * @return A list of strings representing the properties of the circle (cx, cy, r, fill).
      */
     @Override
-    public List<String> getProperties(String figure) {
+    public List<String> getProperties(Figure figure) {
         List<String> properties = new ArrayList<>();
-        properties.add(getValue(figure, "cx"));
-        properties.add(getValue(figure, "cy"));
-        properties.add(getValue(figure, "r"));
-        properties.add(getValue(figure, "fill"));
+        Circle circle = (Circle) figure;
+
+        properties.add(circle.getCx());
+        properties.add(circle.getCy());
+        properties.add(circle.getR());
+        properties.add(circle.getFill());
 
         return properties;
     }
@@ -31,7 +37,7 @@ public class CircleProcessor extends FigureProcessor {
      * @return A formatted string representing the circle figure.
      */
     @Override
-    public String print(String figure) {
+    public String print(Figure figure) {
         List<String> properties = this.getProperties(figure);
         StringBuilder output = new StringBuilder().append("circle ");
 

@@ -1,9 +1,9 @@
 package executors;
 
-import Exceptions.UnsupportedCommandException;
+import exceptions.UnsupportedCommandException;
 import commands.*;
-import contracts.CommandWithParams;
-import contracts.CommandWithoutParams;
+import interfaces.CommandWithParams;
+import interfaces.CommandWithoutParams;
 import enums.CommandTypes;
 
 import java.util.ArrayList;

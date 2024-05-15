@@ -1,5 +1,6 @@
 package regions;
 
+import interfaces.Figure;
 import processors.CircleProcessor;
 import processors.LineProcessor;
 import processors.RectangleProcessor;
@@ -20,15 +21,15 @@ public abstract class Region {
      * @param figure The string representation of the figure.
      * @return true if the figure is within the region, false otherwise.
      */
-    public boolean isWithin(String figure) {
+    public boolean isWithin(Figure figure) {
         List<String> properties;
 
-        switch (figure.trim().split(" ")[0]) {
-            case "<rect" -> {
+        switch (figure.getClass().getSimpleName().toLowerCase()) {
+            case "rectangle" -> {
                 properties = rp.getProperties(figure);
                 return this.checkRectangle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)), Integer.parseInt(properties.get(3)));
             }
-            case "<circle" -> {
+            case "circle" -> {
                 properties = cp.getProperties(figure);
                 return this.checkCircle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)));
             }

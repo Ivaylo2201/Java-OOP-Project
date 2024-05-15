@@ -1,7 +1,7 @@
 package commands;
 
-import contracts.CommandWithParams;
-import contracts.Figure;
+import interfaces.CommandWithParams;
+import interfaces.Figure;
 import figures.Circle;
 import figures.Rectangle;
 import figures.Line;
@@ -36,7 +36,7 @@ public class Create implements CommandWithParams {
         }
 
         List<String> properties = args.subList(1, args.size());
-        Figure figure = null;
+        Figure figure;
 
         try {
             figure = switch (args.getFirst().toLowerCase()) {
@@ -47,6 +47,7 @@ public class Create implements CommandWithParams {
             };
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid number of properties!");
+            return;
         }
 
         if (figure == null) {
@@ -55,7 +56,7 @@ public class Create implements CommandWithParams {
         }
 
         if (figure.isValid()) {
-            figureCreator.create(figure.toString());
+            figureCreator.create(figure);
             System.out.println("Successfully created " + figure.getClass().getSimpleName().toLowerCase());
         } else {
             System.out.println("Invalid figure properties!");

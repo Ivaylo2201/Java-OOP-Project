@@ -1,6 +1,6 @@
 package commands;
 
-import contracts.CommandWithParams;
+import interfaces.CommandWithParams;
 import managers.FileManager;
 
 import java.io.BufferedWriter;

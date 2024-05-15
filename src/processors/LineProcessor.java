@@ -1,12 +1,16 @@
 package processors;
 
+import interfaces.Figure;
+import interfaces.FigureProcessor;
+import figures.Line;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The LineProcessor class processes line figures.
  */
-public class LineProcessor extends FigureProcessor {
+public class LineProcessor implements FigureProcessor {
     /**
      * Retrieves the properties of a line figure.
      *
@@ -15,14 +19,16 @@ public class LineProcessor extends FigureProcessor {
      *        the line (x1, y1, x2, y2, stroke, stroke-width).
      */
     @Override
-    public List<String> getProperties(String figure) {
+    public List<String> getProperties(Figure figure) {
         List<String> properties = new ArrayList<>();
-        properties.add(getValue(figure, "x1"));
-        properties.add(getValue(figure, "y1"));
-        properties.add(getValue(figure, "x2"));
-        properties.add(getValue(figure, "y2"));
-        properties.add(getValue(figure, "stroke"));
-        properties.add(getValue(figure, "stroke-width"));
+        Line line = (Line) figure;
+
+        properties.add(line.getX1());
+        properties.add(line.getY1());
+        properties.add(line.getX2());
+        properties.add(line.getY2());
+        properties.add(line.getStroke());
+        properties.add(line.getStrokeWidth());
 
         return properties;
     }
@@ -34,7 +40,7 @@ public class LineProcessor extends FigureProcessor {
      * @return A formatted string representing the line figure.
      */
     @Override
-    public String print(String figure) {
+    public String print(Figure figure) {
         List<String> properties = getProperties(figure);
         StringBuilder output = new StringBuilder().append("line ");
 

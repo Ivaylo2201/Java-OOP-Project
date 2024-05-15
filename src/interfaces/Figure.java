@@ -1,4 +1,4 @@
-package contracts;
+package interfaces;
 
 /**
  * An interface for geometric figures.

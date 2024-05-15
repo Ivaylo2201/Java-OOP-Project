@@ -1,6 +1,6 @@
 package figures;
 
-import contracts.Figure;
+import interfaces.Figure;
 
 import java.util.List;
 
@@ -13,6 +13,26 @@ public class Rectangle implements Figure {
     private final String width;
     private final String height;
     private final String fill;
+
+    public String getX() {
+        return x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public String getFill() {
+        return fill;
+    }
 
     /**
      * Constructs a rectangle with the specified properties.

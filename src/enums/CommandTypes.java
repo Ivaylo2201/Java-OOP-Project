@@ -1,6 +1,6 @@
 package enums;
 
-import Exceptions.UnsupportedCommandException;
+import exceptions.UnsupportedCommandException;
 
 public enum CommandTypes {
     OPEN("open"),

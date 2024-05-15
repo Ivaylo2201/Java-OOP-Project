@@ -1,12 +1,20 @@
 package commands;
 
-import contracts.CommandWithoutParams;
+import figures.Circle;
+import interfaces.CommandWithoutParams;
+import interfaces.Figure;
+import figures.Line;
+import figures.Rectangle;
+import helpers.Extractor;
 import managers.FileManager;
 import processors.CircleProcessor;
+import interfaces.FigureProcessor;
 import processors.LineProcessor;
 import processors.RectangleProcessor;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Print class represents a command to print
@@ -14,9 +22,14 @@ import java.io.IOException;
  */
 public class Print implements CommandWithoutParams {
     private static final FileManager fm = FileManager.getInstance();
-    private static final RectangleProcessor rp = new RectangleProcessor();
-    private static final CircleProcessor cp = new CircleProcessor();
-    private static final LineProcessor lp = new LineProcessor();
+    private final Map<String, FigureProcessor> processors = new HashMap<>();
+    private final Extractor extractor = new Extractor();
+
+    public Print() {
+        this.processors.put("rectangle", new RectangleProcessor());
+        this.processors.put("circle", new CircleProcessor());
+        this.processors.put("line", new LineProcessor());
+    }
 
     /**
      * Iterates over the figures in the opened
@@ -33,15 +46,25 @@ public class Print implements CommandWithoutParams {
         try {
             StringBuilder output = new StringBuilder();
             String toAppend;
+            Figure figure;
             int idx = 1;
 
-            for (String figure : fm.getFigures()) {
-                figure = figure.trim();
+            for (String line : fm.getFigures()) {
+                line = line.trim();
 
-                switch (figure.split(" ")[0]) {
-                    case "<rect" -> toAppend = rp.print(figure);
-                    case "<circle" -> toAppend = cp.print(figure);
-                    default -> toAppend = lp.print(figure);
+                switch (line.split(" ")[0]) {
+                    case "<rect" -> {
+                        figure = new Rectangle(this.extractor.extract("rectangle", line));
+                        toAppend = this.processors.get("rectangle").print(figure);
+                    }
+                    case "<circle" -> {
+                        figure = new Circle(this.extractor.extract("circle", line));
+                        toAppend = this.processors.get("circle").print(figure);
+                    }
+                    default -> {
+                        figure = new Line(this.extractor.extract("line", line));
+                        toAppend = this.processors.get("line").print(figure);
+                    }
                 }
 
                 output.append(idx).append(". ").append(toAppend).append("\n");

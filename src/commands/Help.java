@@ -1,6 +1,6 @@
 package commands;
 
-import contracts.CommandWithoutParams;
+import interfaces.CommandWithoutParams;
 
 /**
  * The Help class represents a command to

@@ -1,17 +1,21 @@
 package commands;
 
-import contracts.CommandWithParams;
-import contracts.Figure;
+import interfaces.CommandWithParams;
+import interfaces.Figure;
 import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
+import helpers.Extractor;
 import managers.FileManager;
 import processors.CircleProcessor;
+import interfaces.FigureProcessor;
 import processors.LineProcessor;
 import processors.RectangleProcessor;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Translate class represents a command to translate figures in an SVG file.
@@ -19,11 +23,16 @@ import java.util.List;
  */
 public class Translate implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
-    private static final RectangleProcessor rp = new RectangleProcessor();
-    private static final CircleProcessor cp = new CircleProcessor();
-    private static final LineProcessor lp = new LineProcessor();
+    private final Map<String, FigureProcessor> processors = new HashMap<>();
+    private final Extractor extractor = new Extractor();
     private static StringBuilder translatedContent;
     private static Figure translatedFigure;
+
+    public Translate() {
+        this.processors.put("<rect", new RectangleProcessor());
+        this.processors.put("<circle", new CircleProcessor());
+        this.processors.put("<line", new LineProcessor());
+    }
 
     /**
      * Helper method:
@@ -35,12 +44,13 @@ public class Translate implements CommandWithParams {
      * @param horizontalTranslation The horizontal distance to translate.
      */
     private void translateAll(List<String> figures, int verticalTranslation, int horizontalTranslation) {
-        for (String figure : figures) {
+        for (String line : figures) {
+            line = line.trim();
 
-            switch (figure.trim().split(" ")[0]) {
-                case "<rect" -> translatedFigure = new Rectangle(rp.getProperties(figure));
-                case "<circle" -> translatedFigure = new Circle(cp.getProperties(figure));
-                case "<line" -> translatedFigure = new Line(lp.getProperties(figure));
+            switch (line.split(" ")[0]) {
+                case "<rect" -> translatedFigure = new Rectangle(this.extractor.extract("rectangle", line));
+                case "<circle" -> translatedFigure = new Circle(this.extractor.extract("circle", line));
+                case "<line" -> translatedFigure = new Line(this.extractor.extract("line", line));
             }
 
             translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
@@ -72,10 +82,12 @@ public class Translate implements CommandWithParams {
             figure = figures.get(i);
 
             if (i == translateIndex - 1) {
-                switch (figure.trim().split(" ")[0]) {
-                    case "<rect" -> translatedFigure = new Rectangle(rp.getProperties(figure));
-                    case "<circle" -> translatedFigure = new Circle(cp.getProperties(figure));
-                    case "<line" -> translatedFigure = new Line(lp.getProperties(figure));
+                figure = figure.trim();
+
+                switch (figure.split(" ")[0]) {
+                    case "<rect" -> translatedFigure = new Rectangle(this.extractor.extract("rectangle", figure));
+                    case "<circle" -> translatedFigure = new Circle(this.extractor.extract("circle", figure));
+                    case "<line" -> translatedFigure = new Line(this.extractor.extract("line", figure));
                 }
 
                 translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
