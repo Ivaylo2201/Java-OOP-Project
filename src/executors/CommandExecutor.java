@@ -12,16 +12,14 @@ import java.util.List;
 
 
 /**
- * The CommandExecutor class is
- * responsible for executing various commands.
+ * The CommandExecutor class is responsible for executing various commands.
  */
 public class CommandExecutor {
     private final HashMap<CommandTypes, CommandWithoutParams> commandsWithoutParams = new HashMap<>();
     private final HashMap<CommandTypes, CommandWithParams> commandsWithParams = new HashMap<>();
 
     /**
-     * Constructs a new CommandExecutor object
-     * and initializes the supported commands.
+     * Constructs a new CommandExecutor object and initializes the supported commands.
      */
     public CommandExecutor() {
         this.commandsWithParams.put(CommandTypes.OPEN, new Open());
@@ -40,6 +38,7 @@ public class CommandExecutor {
     /**
      * Executes the given command along with the
      * arguments if it exists in one of the hashmaps.
+     *
      * @param commands An array of strings representing the commands and their arguments.
      */
     public void execute(String[] commands) {
@@ -52,7 +51,7 @@ public class CommandExecutor {
             else
                 this.commandsWithParams.get(command).execute(args);
 
-        } catch (UnsupportedCommandException e) {
+        } catch (UnsupportedCommandException _) {
             System.out.println(commands[0] + " is not supported");
         }
     }

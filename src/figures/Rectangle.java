@@ -14,26 +14,6 @@ public class Rectangle implements Figure {
     private final String height;
     private final String fill;
 
-    public String getX() {
-        return x;
-    }
-
-    public String getY() {
-        return y;
-    }
-
-    public String getWidth() {
-        return width;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public String getFill() {
-        return fill;
-    }
-
     /**
      * Constructs a rectangle with the specified properties.
      *
@@ -45,6 +25,22 @@ public class Rectangle implements Figure {
         this.width = properties.get(2);
         this.height = properties.get(3);
         this.fill = properties.get(4);
+    }
+
+    public String getX() {
+        return this.x;
+    }
+    public String getY() {
+        return this.y;
+    }
+    public String getWidth() {
+        return this.width;
+    }
+    public String getHeight() {
+        return this.height;
+    }
+    public String getFill() {
+        return this.fill;
     }
 
     /**

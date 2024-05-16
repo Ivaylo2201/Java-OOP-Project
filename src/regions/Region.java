@@ -41,8 +41,6 @@ public abstract class Region {
     }
 
     public abstract boolean checkRectangle(double x, double y, double width, double height);
-
     public abstract boolean checkCircle(double cx, double cy, double r);
-
     public abstract boolean checkLine(double x1, double y1, double x2, double y2);
 }

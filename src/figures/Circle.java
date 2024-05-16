@@ -13,22 +13,6 @@ public class Circle implements Figure {
     private final String r;
     private final String fill;
 
-    public String getCx() {
-        return cx;
-    }
-
-    public String getCy() {
-        return cy;
-    }
-
-    public String getR() {
-        return r;
-    }
-
-    public String getFill() {
-        return fill;
-    }
-
     /**
      * Constructs a circle with the specified properties.
      *
@@ -39,6 +23,22 @@ public class Circle implements Figure {
         this.cy = properties.get(1);
         this.r = properties.get(2);
         this.fill = properties.get(3);
+    }
+
+    public String getCx() {
+        return this.cx;
+    }
+
+    public String getCy() {
+        return this.cy;
+    }
+
+    public String getR() {
+        return this.r;
+    }
+
+    public String getFill() {
+        return this.fill;
     }
 
     /**

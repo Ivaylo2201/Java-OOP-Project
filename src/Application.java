@@ -27,7 +27,7 @@ public class Application {
                 ce.execute(commands);
                 System.out.println();
             } catch (Exception e) {
-                System.out.println("An error has occurred!");
+                System.out.println("An error has occurred!\n");
             }
         }
     }

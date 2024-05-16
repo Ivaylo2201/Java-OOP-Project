@@ -15,30 +15,6 @@ public class Line implements Figure {
     private final String stroke;
     private final String strokeWidth;
 
-    public String getX1() {
-        return x1;
-    }
-
-    public String getY1() {
-        return y1;
-    }
-
-    public String getX2() {
-        return x2;
-    }
-
-    public String getY2() {
-        return y2;
-    }
-
-    public String getStroke() {
-        return stroke;
-    }
-
-    public String getStrokeWidth() {
-        return strokeWidth;
-    }
-
     /**
      * Constructs a line with the specified properties.
      *
@@ -51,6 +27,25 @@ public class Line implements Figure {
         this.y2 = properties.get(3);
         this.stroke = properties.get(4);
         this.strokeWidth = properties.get(5);
+    }
+
+    public String getX1() {
+        return this.x1;
+    }
+    public String getY1() {
+        return this.y1;
+    }
+    public String getX2() {
+        return this.x2;
+    }
+    public String getY2() {
+        return this.y2;
+    }
+    public String getStroke() {
+        return this.stroke;
+    }
+    public String getStrokeWidth() {
+        return this.strokeWidth;
     }
 
     /**

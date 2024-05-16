@@ -11,8 +11,7 @@ import managers.FileManager;
 import java.util.List;
 
 /**
- * The Create class represents a command to
- * create a figure and add it to the current file.
+ * The Create class represents a command to create a figure and add it to the current file.
  */
 public class Create implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
