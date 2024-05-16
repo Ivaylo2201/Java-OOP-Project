@@ -48,7 +48,7 @@ public class Circle implements Figure {
      */
     @Override
     public String toString() {
-        return String.format("    <circle cx=\"%s\" cy=\"%s\" r=\"%s\" fill=\"%s\"/>\n", this.cx, this.cy, this.r, this.fill);
+        return String.format("    <circle cx=\"%s\" cy=\"%s\" r=\"%s\" fill=\"%s\"/>\n", this.cx, this.cy, this.r, this.fill.toLowerCase());
     }
 
     /**

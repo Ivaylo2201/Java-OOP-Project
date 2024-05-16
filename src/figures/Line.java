@@ -55,7 +55,7 @@ public class Line implements Figure {
      */
     @Override
     public String toString() {
-        return String.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" stroke=\"%s\" stroke-width=\"%s\"/>\n", this.x1, this.y1, this.x2, this.y2, this.stroke, this.strokeWidth);
+        return String.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" stroke=\"%s\" stroke-width=\"%s\"/>\n", this.x1, this.y1, this.x2, this.y2, this.stroke.toLowerCase(), this.strokeWidth);
     }
 
     /**

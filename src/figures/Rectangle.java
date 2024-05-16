@@ -50,7 +50,7 @@ public class Rectangle implements Figure {
      */
     @Override
     public String toString() {
-        return String.format("    <rect x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\" fill=\"%s\"/>\n", this.x, this.y, this.width, this.height, this.fill);
+        return String.format("    <rect x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\" fill=\"%s\"/>\n", this.x, this.y, this.width, this.height, this.fill.toLowerCase());
     }
 
     /**
