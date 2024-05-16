@@ -14,7 +14,7 @@ public class RectangleProcessor implements FigureProcessor {
     /**
      * Retrieves the properties of a rectangle figure.
      *
-     * @param figure The string representation of the rectangle figure.
+     * @param figure The figure object
      * @return A list of strings representing the properties
      *        of the rectangle (x, y, width, height, fill).
      */

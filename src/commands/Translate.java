@@ -99,7 +99,7 @@ public class Translate implements CommandWithParams {
         }
 
         if (args.isEmpty()) {
-            System.out.println("Arguments were not provided!");
+            System.out.println("To use 'translate' you must specify a horizontal and vertical translation!");
             return;
         }
 

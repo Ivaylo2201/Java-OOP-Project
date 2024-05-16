@@ -39,14 +39,14 @@ public class CommandExecutor {
      * Executes the given command along with the
      * arguments if it exists in one of the hashmaps.
      *
-     * @param commands An array of strings representing the commands and their arguments.
+     * @param commands An array of strings representing the command and its arguments.
      */
     public void execute(String[] commands) {
         try {
             CommandTypes command = CommandTypes.getByValue(commands[0].toLowerCase());
             List<String> args = new ArrayList<>(List.of(commands)).subList(1, commands.length);
 
-            if (args.isEmpty())
+            if (this.commandsWithoutParams.containsKey(command))
                 this.commandsWithoutParams.get(command).execute();
             else
                 this.commandsWithParams.get(command).execute(args);

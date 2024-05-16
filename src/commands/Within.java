@@ -44,7 +44,7 @@ public class Within implements CommandWithParams {
         }
 
         if (args.isEmpty()) {
-            System.out.println("Arguments were not provided!");
+            System.out.println("To use 'within' you must specify a region and its properties!");
             return;
         }
 

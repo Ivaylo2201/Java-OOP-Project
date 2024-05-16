@@ -14,7 +14,7 @@ public class FigureCreator {
     /**
      * Inserts the specified figure into the current SVG file.
      *
-     * @param figure The SVG representation of the figure to be added.
+     * @param figure The figure object
      */
     public void create(Figure figure) {
         try {

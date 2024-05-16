@@ -14,7 +14,7 @@ public class CircleProcessor implements FigureProcessor {
     /**
      * Retrieves the properties of a circle figure.
      *
-     * @param figure The string representation of the circle figure.
+     * @param figure The figure object
      * @return A list of strings representing the properties of the circle (cx, cy, r, fill).
      */
     @Override
