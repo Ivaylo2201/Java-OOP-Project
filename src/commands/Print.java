@@ -7,14 +7,9 @@ import figures.Line;
 import figures.Rectangle;
 import helpers.Extractor;
 import managers.FileManager;
-import processors.CircleProcessor;
-import interfaces.FigureProcessor;
-import processors.LineProcessor;
-import processors.RectangleProcessor;
-
+import processors.Processors;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * The Print class represents a command to print
@@ -22,14 +17,8 @@ import java.util.Map;
  */
 public class Print implements CommandWithoutParams {
     private static final FileManager fm = FileManager.getInstance();
-    private final Map<String, FigureProcessor> processors = new HashMap<>();
+    private final Processors processors = new Processors();
     private final Extractor extractor = new Extractor();
-
-    public Print() {
-        this.processors.put("rectangle", new RectangleProcessor());
-        this.processors.put("circle", new CircleProcessor());
-        this.processors.put("line", new LineProcessor());
-    }
 
     /**
      * Iterates over the figures in the opened
@@ -53,20 +42,12 @@ public class Print implements CommandWithoutParams {
                 line = line.trim();
 
                 switch (line.split(" ")[0]) {
-                    case "<rect" -> {
-                        figure = new Rectangle(this.extractor.extract("rectangle", line));
-                        toAppend = this.processors.get("rectangle").print(figure);
-                    }
-                    case "<circle" -> {
-                        figure = new Circle(this.extractor.extract("circle", line));
-                        toAppend = this.processors.get("circle").print(figure);
-                    }
-                    default -> {
-                        figure = new Line(this.extractor.extract("line", line));
-                        toAppend = this.processors.get("line").print(figure);
-                    }
+                    case "<rect" -> figure = new Rectangle(this.extractor.extract("rectangle", line));
+                    case "<circle" -> figure = new Circle(this.extractor.extract("circle", line));
+                    default -> figure = new Line(this.extractor.extract("line", line));
                 }
 
+                toAppend = this.processors.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                 output.append(idx).append(". ").append(toAppend).append("\n");
                 idx++;
             }

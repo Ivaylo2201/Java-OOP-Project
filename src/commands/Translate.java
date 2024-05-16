@@ -7,15 +7,8 @@ import figures.Line;
 import figures.Rectangle;
 import helpers.Extractor;
 import managers.FileManager;
-import processors.CircleProcessor;
-import interfaces.FigureProcessor;
-import processors.LineProcessor;
-import processors.RectangleProcessor;
-
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The Translate class represents a command to translate figures in an SVG file.
@@ -23,16 +16,9 @@ import java.util.Map;
  */
 public class Translate implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
-    private final Map<String, FigureProcessor> processors = new HashMap<>();
     private final Extractor extractor = new Extractor();
     private static StringBuilder translatedContent;
     private static Figure translatedFigure;
-
-    public Translate() {
-        this.processors.put("<rect", new RectangleProcessor());
-        this.processors.put("<circle", new CircleProcessor());
-        this.processors.put("<line", new LineProcessor());
-    }
 
     /**
      * Helper method:
@@ -54,7 +40,6 @@ public class Translate implements CommandWithParams {
             }
 
             translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
-
         }
         System.out.println("Successfully translated all figures!");
     }

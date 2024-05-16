@@ -6,19 +6,14 @@ import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
 import helpers.Extractor;
-import interfaces.FigureProcessor;
+import processors.Processors;
 import regions.Region;
 import managers.FileManager;
-import processors.CircleProcessor;
-import processors.LineProcessor;
-import processors.RectangleProcessor;
 import regions.CircleRegion;
 import regions.RectangleRegion;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -28,13 +23,7 @@ import java.util.NoSuchElementException;
 public class Within implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private final Extractor extractor = new Extractor();
-    private final Map<String, FigureProcessor> processors = new HashMap<>();
-
-    public Within() {
-        this.processors.put("rectangle", new RectangleProcessor());
-        this.processors.put("circle", new CircleProcessor());
-        this.processors.put("line", new LineProcessor());
-    }
+    private final Processors processors = new Processors();
 
     /**
      * Executes the 'within' command to find figures
@@ -85,7 +74,7 @@ public class Within implements CommandWithParams {
                 }
 
                 if (region.isWithin(figure)) {
-                    toAppend = this.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
+                    toAppend = this.processors.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                     output.append(idx).append(". ").append(toAppend).append("\n");
                     idx++;
                 }
