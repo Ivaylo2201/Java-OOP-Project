@@ -6,49 +6,72 @@ import exceptions.UnsupportedCommandException;
  * Enum representing different types of commands.
  */
 public enum CommandTypes {
-    OPEN("open"),
-    CLOSE("close"),
-    SAVE("save"),
-    SAVEAS("saveas"),
-    HELP("help"),
-    EXIT("exit"),
-    PRINT("print"),
-    CREATE("create"),
-    ERASE("erase"),
-    TRANSLATE("translate"),
-    WITHIN("within");
-
-    private final String command;
+    /**
+     * Command to open a file.
+     */
+    OPEN,
 
     /**
-     * Constructor for CommandTypes enum.
-     *
-     * @param command The command string associated with the enum value.
+     * Command to close a file.
      */
-    CommandTypes(String command) {
-        this.command = command;
-    }
+    CLOSE,
 
     /**
-     * Gets the command string associated with the enum value.
-     *
-     * @return The command string.
+     * Command to save the current state of the file.
      */
-    public String getCommand() {
-        return this.command;
-    }
+    SAVE,
 
     /**
-     * Gets the CommandTypes enum value corresponding to the given command string.
-     *
-     * @param value The command string.
-     * @return The corresponding CommandTypes enum value.
-     * @throws UnsupportedCommandException If the command string does not match any enum value.
+     * Command to save the current state of the file with a new name or location.
      */
-    public static CommandTypes getByValue(String value) throws UnsupportedCommandException {
-        for (CommandTypes command : CommandTypes.values()) {
-            if (command.getCommand().equals(value)) {
-                return command;
+    SAVEAS,
+
+    /**
+     * Command to display the other commands.
+     */
+    HELP,
+
+    /**
+     * Command to exit the application.
+     */
+    EXIT,
+
+    /**
+     * Command to print the shapes in the opened file.
+     */
+    PRINT,
+
+    /**
+     * Command to create a new figure in the opened file.
+     */
+    CREATE,
+
+    /**
+     * Command to erase a figure in the opened file.
+     */
+    ERASE,
+
+    /**
+     * Command to translate a figure in the opened file.
+     */
+    TRANSLATE,
+
+    /**
+     * Command to get all figure within a region
+     */
+    WITHIN;
+
+    /**
+     * Retrieves a command by its string value.
+     *
+     * @param searchCommand the command name to search for
+     * @return the matching command
+     * @throws UnsupportedCommandException if the command is not found
+     */
+    public static CommandTypes getByValue(String searchCommand) throws UnsupportedCommandException {
+        for (CommandTypes commandType : CommandTypes.values()) {
+            if (commandType.name().equalsIgnoreCase(searchCommand)) {
+                return commandType;
             }
         }
         throw new UnsupportedCommandException();

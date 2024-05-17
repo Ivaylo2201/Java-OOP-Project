@@ -3,6 +3,7 @@ package regions;
 import interfaces.Figure;
 import processors.CircleProcessor;
 import processors.LineProcessor;
+import processors.Processors;
 import processors.RectangleProcessor;
 
 import java.util.List;
@@ -11,9 +12,7 @@ import java.util.List;
  * The Region abstract class represents a region in a graphical context.
  */
 public abstract class Region {
-    private static final RectangleProcessor rp = new RectangleProcessor();
-    private static final LineProcessor lp = new LineProcessor();
-    private static final CircleProcessor cp = new CircleProcessor();
+    private final Processors processors = new Processors();
 
     /**
      * Checks if a figure is within the region.
@@ -26,15 +25,15 @@ public abstract class Region {
 
         switch (figure.getClass().getSimpleName().toLowerCase()) {
             case "rectangle" -> {
-                properties = rp.getProperties(figure);
+                properties = this.processors.processors.get("rectangle").getProperties(figure);
                 return this.checkRectangle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)), Integer.parseInt(properties.get(3)));
             }
             case "circle" -> {
-                properties = cp.getProperties(figure);
+                properties = this.processors.processors.get("circle").getProperties(figure);
                 return this.checkCircle(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)));
             }
             default -> {
-                properties = lp.getProperties(figure);
+                properties = this.processors.processors.get("line").getProperties(figure);
                 return this.checkLine(Integer.parseInt(properties.getFirst()), Integer.parseInt(properties.get(1)), Integer.parseInt(properties.get(2)), Integer.parseInt(properties.get(3)));
             }
         }
