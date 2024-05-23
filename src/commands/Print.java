@@ -7,8 +7,11 @@ import figures.Line;
 import figures.Rectangle;
 import helpers.Extractor;
 import managers.FileManager;
-import processors.Processors;
+import processors.ProcessorsMap;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 
 /**
@@ -17,8 +20,15 @@ import java.io.IOException;
  */
 public class Print implements CommandWithoutParams {
     private static final FileManager fm = FileManager.getInstance();
-    private final Processors processors = new Processors();
+    private final ProcessorsMap processorsMap = new ProcessorsMap();
     private final Extractor extractor = new Extractor();
+    private final Map<String, Function<String, Figure>> figures = new HashMap<>();
+
+    public Print() {
+        this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
+        this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
+        this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
+    }
 
     /**
      * Iterates over the figures in the opened
@@ -35,19 +45,16 @@ public class Print implements CommandWithoutParams {
         try {
             StringBuilder output = new StringBuilder();
             String toAppend;
+            String figureType;
             Figure figure;
             int idx = 1;
 
             for (String line : fm.getFigures()) {
                 line = line.trim();
+                figureType = line.split(" ")[0];
+                figure = this.figures.get(figureType).apply(line);
 
-                switch (line.split(" ")[0]) {
-                    case "<rect" -> figure = new Rectangle(this.extractor.extract("rectangle", line));
-                    case "<circle" -> figure = new Circle(this.extractor.extract("circle", line));
-                    default -> figure = new Line(this.extractor.extract("line", line));
-                }
-
-                toAppend = this.processors.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
+                toAppend = this.processorsMap.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                 output.append(idx).append(". ").append(toAppend).append("\n");
                 idx++;
             }

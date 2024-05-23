@@ -8,7 +8,10 @@ import figures.Rectangle;
 import helpers.Extractor;
 import managers.FileManager;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * The Translate class represents a command to translate figures in an SVG file.
@@ -19,6 +22,13 @@ public class Translate implements CommandWithParams {
     private final Extractor extractor = new Extractor();
     private static StringBuilder translatedContent;
     private static Figure translatedFigure;
+    private final Map<String, Function<String, Figure>> figures = new HashMap<>();
+
+    public Translate() {
+        this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
+        this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
+        this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
+    }
 
     /**
      * Helper method:
@@ -30,15 +40,13 @@ public class Translate implements CommandWithParams {
      * @param horizontalTranslation The horizontal distance to translate.
      */
     private void translateAll(List<String> figures, int verticalTranslation, int horizontalTranslation) {
+        String figure;
+
         for (String line : figures) {
             line = line.trim();
+            figure = line.split(" ")[0];
 
-            switch (line.split(" ")[0]) {
-                case "<rect" -> translatedFigure = new Rectangle(this.extractor.extract("rectangle", line));
-                case "<circle" -> translatedFigure = new Circle(this.extractor.extract("circle", line));
-                case "<line" -> translatedFigure = new Line(this.extractor.extract("line", line));
-            }
-
+            translatedFigure = this.figures.get(figure).apply(line);
             translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
         }
         System.out.println("Successfully translated all figures!");
@@ -55,7 +63,8 @@ public class Translate implements CommandWithParams {
      * @param horizontalTranslation The horizontal distance to translate.
      */
     private void translateOne(List<String> figures, int translateIndex, int verticalTranslation, int horizontalTranslation) {
-        String figure;
+        String line;
+        String figureType;
 
         if (translateIndex <= 0 || translateIndex > figures.size())
             System.out.println("There is no figure number " + translateIndex + "!");
@@ -64,21 +73,16 @@ public class Translate implements CommandWithParams {
 
 
         for (int i = 0; i < figures.size(); i++) {
-            figure = figures.get(i);
+            line = figures.get(i);
 
             if (i == translateIndex - 1) {
-                figure = figure.trim();
+                line = line.trim();
+                figureType = line.split(" ")[0];
 
-                switch (figure.split(" ")[0]) {
-                    case "<rect" -> translatedFigure = new Rectangle(this.extractor.extract("rectangle", figure));
-                    case "<circle" -> translatedFigure = new Circle(this.extractor.extract("circle", figure));
-                    case "<line" -> translatedFigure = new Line(this.extractor.extract("line", figure));
-                }
-
+                translatedFigure = this.figures.get(figureType).apply(line);
                 translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
-
             } else {
-                translatedContent.append(figure).append("\n");
+                translatedContent.append(line).append("\n");
             }
         }
     }
@@ -121,7 +125,7 @@ public class Translate implements CommandWithParams {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fm.file));
             writer.write(translatedContent.toString());
             writer.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("An error has occurred!");
         }
     }

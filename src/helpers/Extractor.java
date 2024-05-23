@@ -1,14 +1,20 @@
 package helpers;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * A utility class for extracting properties from figure descriptions.
  */
 public class Extractor {
+    private final Map<String, ArrayList<String>> props = new HashMap<>();
+
+    public Extractor() {
+        this.props.put("rectangle", new ArrayList<>(Arrays.asList("x", "y", "width", "height", "fill")));
+        this.props.put("circle", new ArrayList<>(Arrays.asList("x", "y", "r", "fill")));
+        this.props.put("line", new ArrayList<>(Arrays.asList("x1", "y1", "x2", "y2", "stroke", "stroke-width")));
+    }
+
     /**
      * Retrieves the value of a specific property from a figure description.
      *
@@ -34,19 +40,12 @@ public class Extractor {
      * Extracts a list of properties from a figure description based on the figure type.
      *
      * @param figure The type of figure ("rectangle", "circle", or "line").
-     * @param line   The description of the figure.
+     * @param line The description of the figure.
      * @return A list of extracted properties.
      */
     public List<String> extract(String figure, String line) {
         List<String> extracted = new ArrayList<>();
-        List<String> properties;
-
-        switch (figure) {
-            case "rectangle" -> properties = new ArrayList<>(Arrays.asList("x", "y", "width", "height", "fill"));
-            case "circle" -> properties = new ArrayList<>(Arrays.asList("x", "y", "r", "fill"));
-            case "line" -> properties = new ArrayList<>(Arrays.asList("x1", "y1", "x2", "y2", "stroke", "stroke-width"));
-            default -> properties = new ArrayList<>();
-        }
+        List<String> properties = this.props.getOrDefault(figure, new ArrayList<>());
 
         for (String property : properties) {
             extracted.add(this.get(line, property));

@@ -6,15 +6,15 @@ import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
 import helpers.Extractor;
-import processors.Processors;
+import processors.ProcessorsMap;
 import regions.Region;
 import managers.FileManager;
 import regions.CircleRegion;
 import regions.RectangleRegion;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * The Within class represents a command to find
@@ -23,7 +23,17 @@ import java.util.NoSuchElementException;
 public class Within implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private final Extractor extractor = new Extractor();
-    private final Processors processors = new Processors();
+    private final ProcessorsMap processors = new ProcessorsMap();
+    private final Map<String, Function<String, Figure>> figures = new HashMap<>();
+    private final Map<String, Function<List<String>, Region>> regions = new HashMap<>();
+
+    public Within() {
+        this.regions.put("circle", (line) -> new CircleRegion(line));
+        this.regions.put("rectangle", (line) -> new RectangleRegion(line));
+        this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
+        this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
+        this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
+    }
 
     /**
      * Executes the 'within' command to find figures
@@ -51,27 +61,22 @@ public class Within implements CommandWithParams {
         try {
             StringBuilder output = new StringBuilder();
             String toAppend;
-            String regionType = args.getFirst();
+            String regionType = args.getFirst().toLowerCase();
+
             int idx = 1;
+
             List<String> properties = args.subList(1, args.size());
 
-            switch (regionType) {
-                case "rectangle" -> region = new RectangleRegion(properties);
-                case "circle" -> region = new CircleRegion(properties);
-                default -> {
-                    System.out.println("Invalid region type!");
-                    return;
-                }
+            if (this.regions.containsKey(regionType)) {
+                region = this.regions.get(regionType).apply(properties);
+            } else {
+                System.out.println("Invalid region type!");
+                return;
             }
 
             for (String line : fm.getFigures()) {
                 line = line.trim();
-
-                switch (line.split(" ")[0]) {
-                    case "<rect" -> figure = new Rectangle(this.extractor.extract("rectangle", line));
-                    case "<circle" -> figure = new Circle(this.extractor.extract("circle", line));
-                    default -> figure = new Line(this.extractor.extract("line", line));
-                }
+                figure = this.figures.get(line.split(" ")[0]).apply(line);
 
                 if (region.isWithin(figure)) {
                     toAppend = this.processors.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
