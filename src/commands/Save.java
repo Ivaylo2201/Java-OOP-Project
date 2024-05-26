@@ -55,7 +55,7 @@ public class Save implements CommandWithoutParams {
             if (!isDeleted) {
                 System.out.println("An error has occurred while deleting the old file!");
             } else {
-                System.out.println("Successfully saved the changes to '" + fm.file.getName() + "'!");
+                System.out.println("Successfully saved the changes to " + fm.file.getName() + "!");
             }
         } catch (IOException e) {
             System.out.println("An error has occurred!");

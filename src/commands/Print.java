@@ -49,7 +49,7 @@ public class Print implements CommandWithoutParams {
             if (!output.isEmpty())
                 System.out.print(output);
             else
-                System.out.println("There are no figures in '" + fm.file.getName() + "'!");
+                System.out.println("There are no figures in " + fm.file.getName() + "!");
 
         } catch (IOException e) {
             System.out.println("An error has occurred!");

@@ -64,7 +64,7 @@ public class Open implements CommandWithParams {
             }
 
             fm.file = fileToOpen;
-            System.out.println("Successfully opened '" + fm.file.getName() + "'!");
+            System.out.println("Successfully opened " + fm.file.getName() + "!");
 
         } catch (IOException e) {
             System.out.println("An error has occurred!");

@@ -50,7 +50,7 @@ public class SaveAs implements CommandWithParams {
             bufferedReader.close();
             bufferedWriter.close();
 
-            System.out.println("Successfully saved as '" + fileName + "'!");
+            System.out.println("Successfully saved as " + fileName + "!");
         } catch (IOException e) {
             System.out.println("An error has occurred!");
         }

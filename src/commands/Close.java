@@ -21,7 +21,7 @@ public class Close implements CommandWithoutParams {
             return;
         }
 
-        System.out.println("Successfully closed '" + fm.file.getName() + "'!");
+        System.out.println("Successfully closed " + fm.file.getName() + "!");
         fm.file = null;
     }
 }
