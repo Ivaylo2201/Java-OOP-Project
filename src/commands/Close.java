@@ -17,11 +17,11 @@ public class Close implements CommandWithoutParams {
     @Override
     public void execute() {
         if (fm.file == null) {
-            System.out.println("No file is opened.");
+            System.out.println("No file is opened!");
             return;
         }
 
-        System.out.println("Successfully closed " + fm.file.getName());
+        System.out.println("Successfully closed '" + fm.file.getName() + "'!");
         fm.file = null;
     }
 }

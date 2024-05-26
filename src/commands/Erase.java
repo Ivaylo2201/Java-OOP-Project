@@ -23,7 +23,7 @@ public class Erase implements CommandWithParams {
     @Override
     public void execute(List<String> args) {
         if (fm.file == null) {
-            System.out.println("No file is opened.");
+            System.out.println("No file is opened!");
             return;
         }
 
@@ -58,7 +58,7 @@ public class Erase implements CommandWithParams {
             writer.close();
 
         } catch (NoSuchElementException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("There are no figures in " + fm.file.getName());
+            System.out.println("There are no figures in " + fm.file.getName() + "!");
         } catch (IOException e) {
             System.out.println("An error has occurred!");
         }

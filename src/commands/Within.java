@@ -1,20 +1,15 @@
 package commands;
 
+import helpers.FigureMapperString;
+import helpers.RegionMapper;
 import interfaces.CommandWithParams;
 import interfaces.Figure;
-import figures.Circle;
-import figures.Line;
-import figures.Rectangle;
-import helpers.Extractor;
-import processors.ProcessorsMap;
+import helpers.ProcessorMapper;
 import regions.Region;
 import managers.FileManager;
-import regions.CircleRegion;
-import regions.RectangleRegion;
-
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
+
 
 /**
  * The Within class represents a command to find
@@ -22,18 +17,9 @@ import java.util.function.Function;
  */
 public class Within implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
-    private final Extractor extractor = new Extractor();
-    private final ProcessorsMap processors = new ProcessorsMap();
-    private final Map<String, Function<String, Figure>> figures = new HashMap<>();
-    private final Map<String, Function<List<String>, Region>> regions = new HashMap<>();
-
-    public Within() {
-        this.regions.put("circle", (line) -> new CircleRegion(line));
-        this.regions.put("rectangle", (line) -> new RectangleRegion(line));
-        this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
-        this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
-        this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
-    }
+    private final ProcessorMapper processorMapper = new ProcessorMapper();
+    private final FigureMapperString figureMapper = new FigureMapperString();
+    private final RegionMapper regionMapper = new RegionMapper();
 
     /**
      * Executes the 'within' command to find figures
@@ -67,8 +53,8 @@ public class Within implements CommandWithParams {
 
             List<String> properties = args.subList(1, args.size());
 
-            if (this.regions.containsKey(regionType)) {
-                region = this.regions.get(regionType).apply(properties);
+            if (this.regionMapper.regions.containsKey(regionType)) {
+                region = this.regionMapper.regions.get(regionType).apply(properties);
             } else {
                 System.out.println("Invalid region type!");
                 return;
@@ -76,10 +62,10 @@ public class Within implements CommandWithParams {
 
             for (String line : fm.getFigures()) {
                 line = line.trim();
-                figure = this.figures.get(line.split(" ")[0]).apply(line);
+                figure = this.figureMapper.figures.get(line.split(" ")[0]).apply(line);
 
                 if (region.isWithin(figure)) {
-                    toAppend = this.processors.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
+                    toAppend = this.processorMapper.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                     output.append(idx).append(". ").append(toAppend).append("\n");
                     idx++;
                 }

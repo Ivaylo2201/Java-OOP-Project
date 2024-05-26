@@ -45,7 +45,7 @@ public class Open implements CommandWithParams {
     @Override
     public void execute(List<String> args) {
         if (args.isEmpty()) {
-            System.out.println("To use 'open' you must specify a directory.");
+            System.out.println("To use 'open' you must specify a directory!");
             return;
         }
 
@@ -64,7 +64,7 @@ public class Open implements CommandWithParams {
             }
 
             fm.file = fileToOpen;
-            System.out.println("Successfully opened " + fm.file.getName());
+            System.out.println("Successfully opened '" + fm.file.getName() + "'!");
 
         } catch (IOException e) {
             System.out.println("An error has occurred!");

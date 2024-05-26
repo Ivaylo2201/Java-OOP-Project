@@ -1,17 +1,11 @@
 package commands;
 
+import helpers.FigureMapperList;
 import interfaces.CommandWithParams;
 import interfaces.Figure;
-import figures.Circle;
-import figures.Rectangle;
-import figures.Line;
 import creators.FigureCreator;
 import managers.FileManager;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * The Create class represents a command to create a figure and add it to the current file.
@@ -19,6 +13,7 @@ import java.util.function.Function;
 public class Create implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
     private final FigureCreator figureCreator = new FigureCreator();
+    private final FigureMapperList figureMapper = new FigureMapperList();
 
     /**
      * Creates a new figure instance based on user input
@@ -29,7 +24,7 @@ public class Create implements CommandWithParams {
     @Override
     public void execute(List<String> args) {
         if (fm.file == null) {
-            System.out.println("No file is opened.");
+            System.out.println("No file is opened!");
             return;
         }
 
@@ -38,19 +33,13 @@ public class Create implements CommandWithParams {
             return;
         }
 
-        List<String> properties = args.subList(1, args.size());
-
-        Map<String, Function<Void, Figure>> figures = new HashMap<>();
-        figures.put("rectangle", _ -> new Rectangle(properties));
-        figures.put("circle", _ -> new Circle(properties));
-        figures.put("line", _ -> new Line(properties));
-
         Figure figure;
         String figureType = args.getFirst().toLowerCase();
+        List<String> properties = args.subList(1, args.size());
 
         try {
-            if (figures.containsKey(figureType)) {
-                figure = figures.get(figureType).apply(null);
+            if (this.figureMapper.figures.containsKey(figureType)) {
+                figure = this.figureMapper.figures.get(figureType).apply(properties);
             } else {
                 System.out.println("Invalid figure type!");
                 return;
@@ -62,7 +51,7 @@ public class Create implements CommandWithParams {
 
         if (figure.isValid()) {
             this.figureCreator.create(figure);
-            System.out.println("Successfully created " + figure.getClass().getSimpleName().toLowerCase());
+            System.out.println("Successfully created " + figure.getClass().getSimpleName().toLowerCase() + "!");
         } else {
             System.out.println("Invalid figure properties!");
         }

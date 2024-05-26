@@ -1,17 +1,11 @@
 package commands;
 
+import helpers.FigureMapperString;
 import interfaces.CommandWithParams;
 import interfaces.Figure;
-import figures.Circle;
-import figures.Line;
-import figures.Rectangle;
-import helpers.Extractor;
 import managers.FileManager;
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * The Translate class represents a command to translate figures in an SVG file.
@@ -19,16 +13,9 @@ import java.util.function.Function;
  */
 public class Translate implements CommandWithParams {
     private static final FileManager fm = FileManager.getInstance();
-    private final Extractor extractor = new Extractor();
     private static StringBuilder translatedContent;
     private static Figure translatedFigure;
-    private final Map<String, Function<String, Figure>> figures = new HashMap<>();
-
-    public Translate() {
-        this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
-        this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
-        this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
-    }
+    private final FigureMapperString figureMapper = new FigureMapperString();
 
     /**
      * Helper method:
@@ -46,7 +33,7 @@ public class Translate implements CommandWithParams {
             line = line.trim();
             figure = line.split(" ")[0];
 
-            translatedFigure = this.figures.get(figure).apply(line);
+            translatedFigure = this.figureMapper.figures.get(figure).apply(line);
             translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
         }
         System.out.println("Successfully translated all figures!");
@@ -79,7 +66,7 @@ public class Translate implements CommandWithParams {
                 line = line.trim();
                 figureType = line.split(" ")[0];
 
-                translatedFigure = this.figures.get(figureType).apply(line);
+                translatedFigure = this.figureMapper.figures.get(figureType).apply(line);
                 translatedContent.append(translatedFigure.translate(verticalTranslation, horizontalTranslation));
             } else {
                 translatedContent.append(line).append("\n");
@@ -103,7 +90,7 @@ public class Translate implements CommandWithParams {
         }
 
         if (args.isEmpty()) {
-            System.out.println("To use 'translate' you must specify a horizontal and vertical translation!");
+            System.out.println("To use 'translate' you must specify a horizontal and vertical translation, [Optional: id]!");
             return;
         }
 

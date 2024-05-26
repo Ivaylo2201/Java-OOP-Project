@@ -1,7 +1,7 @@
 package regions;
 
 import interfaces.Figure;
-import processors.ProcessorsMap;
+import helpers.ProcessorMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.function.Function;
  * The Region abstract class represents a region in a graphical context.
  */
 public abstract class Region {
-    private final ProcessorsMap processorsMap = new ProcessorsMap();
+    private final ProcessorMapper processorsMap = new ProcessorMapper();
 
     /**
      * Checks if a figure is within the region.
