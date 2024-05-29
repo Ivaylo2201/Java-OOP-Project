@@ -10,15 +10,14 @@ import java.util.Map;
 
 /**
  * A utility class for managing figure processors.
+ * This class maps figure type strings to their corresponding FigureProcessor instances.
  */
 public class ProcessorMapper {
-    /**
-     * A map of figure types to their corresponding processors.
-     */
     public final Map<String, FigureProcessor> processors = new HashMap<>();
 
     /**
-     * Constructs a new Processors instance and initializes processors for supported figure types.
+     * Constructs a new ProcessorMapper instance and initializes processors for supported figure types.
+     * The supported figure types are "rectangle", "circle", and "line".
      */
     public ProcessorMapper() {
         this.processors.put("rectangle", new RectangleProcessor());
