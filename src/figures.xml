@@ -1,6 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC>
 <svg>
-    <rect x="100" y="100" width="30" height="40" fill="blue"/>
-    <circle cx="20" cy="30" r="30" fill="red"/>
+    <rect x="21" y="21" width="10" height="10" fill="red"/>
+    <circle cx="21" cy="21" r="20" fill="blue"/>
+    <rect x="11" y="11" width="5" height="5" fill="orange"/>
 </svg>

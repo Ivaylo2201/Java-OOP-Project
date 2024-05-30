@@ -12,10 +12,4 @@ public interface Figure {
      * @return A String representation of the translated figure.
      */
     String translate(int vertical, int horizontal);
-    /**
-     * Checks whether the figure is valid.
-     *
-     * @return true if the figure is valid, false otherwise.
-     */
-    boolean isValid();
 }

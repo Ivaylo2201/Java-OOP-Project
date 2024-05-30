@@ -1,5 +1,6 @@
 package helpers;
 
+import exceptions.UnsupportedFigureTypeException;
 import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
@@ -25,5 +26,14 @@ public class FigureMapperList {
         figures.put("rectangle", (properties) -> new Rectangle(properties));
         figures.put("circle", (properties) -> new Circle(properties));
         figures.put("line", (properties) -> new Line(properties));
+    }
+
+    public Figure getFigure(String figureType, List<String> properties) throws UnsupportedFigureTypeException {
+        Function<List<String>, Figure> figure = this.figures.get(figureType);
+
+        if (figure != null) {
+            return figure.apply(properties);
+        } else
+            throw new UnsupportedFigureTypeException();
     }
 }

@@ -1,10 +1,13 @@
 package commands;
 
+import exceptions.UnsupportedFigureTypeException;
+import exceptions.UnsupportedProcessorTypeException;
 import helpers.FigureMapperString;
 import interfaces.CommandWithoutParams;
 import interfaces.Figure;
 import managers.FileManager;
 import helpers.ProcessorMapper;
+
 import java.io.IOException;
 
 
@@ -39,9 +42,9 @@ public class Print implements CommandWithoutParams {
             for (String line : fm.getFigures()) {
                 line = line.trim();
                 figureType = line.split(" ")[0];
-                figure = this.figureMapper.figures.get(figureType).apply(line);
 
-                toAppend = this.processorsMapper.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
+                figure = this.figureMapper.getFigure(figureType, line);
+                toAppend = this.processorsMapper.getProcessor(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                 output.append(idx).append(". ").append(toAppend).append("\n");
                 idx++;
             }
@@ -51,6 +54,10 @@ public class Print implements CommandWithoutParams {
             else
                 System.out.println("There are no figures in " + fm.file.getName() + "!");
 
+        } catch (UnsupportedFigureTypeException _) {
+            System.out.println("Invalid figure type!");
+        } catch (UnsupportedProcessorTypeException _) {
+            System.out.println("Invalid processor type!");
         } catch (IOException e) {
             System.out.println("An error has occurred!");
         }

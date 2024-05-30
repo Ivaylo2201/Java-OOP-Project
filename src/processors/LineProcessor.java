@@ -23,12 +23,12 @@ public class LineProcessor implements FigureProcessor {
         List<String> properties = new ArrayList<>();
         Line line = (Line) figure;
 
-        properties.add(line.getX1());
-        properties.add(line.getY1());
-        properties.add(line.getX2());
-        properties.add(line.getY2());
+        properties.add(Integer.toString(line.getX1()));
+        properties.add(Integer.toString(line.getY1()));
+        properties.add(Integer.toString(line.getX2()));
+        properties.add(Integer.toString(line.getY2()));
         properties.add(line.getStroke());
-        properties.add(line.getStrokeWidth());
+        properties.add(Integer.toString(line.getStrokeWidth()));
 
         return properties;
     }

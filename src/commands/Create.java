@@ -1,10 +1,14 @@
 package commands;
 
+import exceptions.InvalidAmountOfPropertiesException;
+import exceptions.InvalidFigurePropertiesException;
+import exceptions.UnsupportedFigureTypeException;
 import helpers.FigureMapperList;
 import interfaces.CommandWithParams;
 import interfaces.Figure;
 import creators.FigureCreator;
 import managers.FileManager;
+
 import java.util.List;
 
 /**
@@ -38,22 +42,17 @@ public class Create implements CommandWithParams {
         List<String> properties = args.subList(1, args.size());
 
         try {
-            if (this.figureMapper.figures.containsKey(figureType)) {
-                figure = this.figureMapper.figures.get(figureType).apply(properties);
-            } else {
-                System.out.println("Invalid figure type!");
-                return;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid number of properties!");
-            return;
-        }
+            figure = this.figureMapper.getFigure(figureType, properties);
 
-        if (figure.isValid()) {
             this.figureCreator.create(figure);
             System.out.println("Successfully created " + figure.getClass().getSimpleName().toLowerCase() + "!");
-        } else {
+
+        } catch (InvalidFigurePropertiesException _) {
             System.out.println("Invalid figure properties!");
+        } catch (InvalidAmountOfPropertiesException _) {
+            System.out.println("Invalid amount of properties!");
+        } catch (UnsupportedFigureTypeException _) {
+            System.out.println("Invalid figure type!");
         }
     }
 }

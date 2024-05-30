@@ -1,5 +1,8 @@
 package regions;
 
+import exceptions.InvalidAmountOfPropertiesException;
+import exceptions.InvalidRegionPropertiesException;
+
 import java.util.List;
 
 /**
@@ -16,9 +19,15 @@ public class CircleRegion extends Region {
      * @param properties A list of strings representing the properties of the circle (cx, cy, r).
      */
     public CircleRegion(List<String> properties) {
-        this.cx = Integer.parseInt(properties.getFirst());
-        this.cy = Integer.parseInt(properties.get(1));
-        this.r = Integer.parseInt(properties.get(2));
+        try {
+            this.cx = Integer.parseInt(properties.getFirst());
+            this.cy = Integer.parseInt(properties.get(1));
+            this.r = Integer.parseInt(properties.get(2));
+        } catch (NumberFormatException _) {
+            throw new InvalidRegionPropertiesException();
+        } catch (IndexOutOfBoundsException _) {
+            throw new InvalidAmountOfPropertiesException();
+        }
     }
 
     /**
@@ -38,9 +47,9 @@ public class CircleRegion extends Region {
         double distance4 = Math.sqrt(Math.pow(x - this.cx, 2) + Math.pow(y + height - this.cy, 2));
 
         return distance1 < this.r &&
-            distance2 < this.r &&
-            distance3 < this.r &&
-            distance4 < this.r;
+                distance2 < this.r &&
+                distance3 < this.r &&
+                distance4 < this.r;
     }
 
     /**
@@ -68,6 +77,6 @@ public class CircleRegion extends Region {
     @Override
     public boolean checkLine(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x1 - this.cx, 2) + Math.pow(y1 - this.cy, 2)) < this.r &&
-            Math.sqrt(Math.pow(x2 - this.cx, 2) + Math.pow(y2 - this.cy, 2)) < this.r;
+                Math.sqrt(Math.pow(x2 - this.cx, 2) + Math.pow(y2 - this.cy, 2)) < this.r;
     }
 }

@@ -23,10 +23,10 @@ public class RectangleProcessor implements FigureProcessor {
         List<String> properties = new ArrayList<>();
         Rectangle rectangle = (Rectangle) figure;
 
-        properties.add(rectangle.getX());
-        properties.add(rectangle.getY());
-        properties.add(rectangle.getWidth());
-        properties.add(rectangle.getHeight());
+        properties.add(Integer.toString(rectangle.getX()));
+        properties.add(Integer.toString(rectangle.getY()));
+        properties.add(Integer.toString(rectangle.getWidth()));
+        properties.add(Integer.toString(rectangle.getHeight()));
         properties.add(rectangle.getFill());
 
         return properties;

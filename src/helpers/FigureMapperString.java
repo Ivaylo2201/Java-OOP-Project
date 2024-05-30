@@ -1,5 +1,6 @@
 package helpers;
 
+import exceptions.UnsupportedFigureTypeException;
 import figures.Circle;
 import figures.Line;
 import figures.Rectangle;
@@ -25,5 +26,14 @@ public class FigureMapperString {
         this.figures.put("<rect", (line) -> new Rectangle(this.extractor.extract("rectangle", line)));
         this.figures.put("<circle", (line) -> new Circle(this.extractor.extract("circle", line)));
         this.figures.put("<line", (line) -> new Line(this.extractor.extract("line", line)));
+    }
+
+    public Figure getFigure(String figureType, String line) throws UnsupportedFigureTypeException {
+        Function<String, Figure> figure = this.figures.get(figureType);
+
+        if (figure != null)
+            return figure.apply(line);
+        else
+            throw new UnsupportedFigureTypeException();
     }
 }

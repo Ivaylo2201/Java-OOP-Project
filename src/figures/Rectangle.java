@@ -1,5 +1,7 @@
 package figures;
 
+import exceptions.InvalidAmountOfPropertiesException;
+import exceptions.InvalidFigurePropertiesException;
 import interfaces.Figure;
 
 import java.util.List;
@@ -8,10 +10,10 @@ import java.util.List;
  * Represents a rectangle figure in an SVG.
  */
 public class Rectangle implements Figure {
-    private String x;
-    private String y;
-    private final String width;
-    private final String height;
+    private int x;
+    private int y;
+    private final int width;
+    private final int height;
     private final String fill;
 
     /**
@@ -19,26 +21,36 @@ public class Rectangle implements Figure {
      *
      * @param properties A List of String properties including x, y, width, height, and fill.
      */
-    public Rectangle(List<String> properties) {
-        this.x = properties.get(0);
-        this.y = properties.get(1);
-        this.width = properties.get(2);
-        this.height = properties.get(3);
-        this.fill = properties.get(4);
+    public Rectangle(List<String> properties) throws InvalidFigurePropertiesException, InvalidAmountOfPropertiesException {
+        try {
+            this.x = Integer.parseInt(properties.get(0));
+            this.y = Integer.parseInt(properties.get(1));
+            this.width = Integer.parseInt(properties.get(2));
+            this.height = Integer.parseInt(properties.get(3));
+            this.fill = properties.get(4);
+        } catch (NumberFormatException _) {
+            throw new InvalidFigurePropertiesException();
+        } catch (IndexOutOfBoundsException _) {
+            throw new InvalidAmountOfPropertiesException();
+        }
     }
 
-    public String getX() {
+    public int getX() {
         return this.x;
     }
-    public String getY() {
+
+    public int getY() {
         return this.y;
     }
-    public String getWidth() {
+
+    public int getWidth() {
         return this.width;
     }
-    public String getHeight() {
+
+    public int getHeight() {
         return this.height;
     }
+
     public String getFill() {
         return this.fill;
     }
@@ -62,19 +74,8 @@ public class Rectangle implements Figure {
      */
     @Override
     public String translate(int vertical, int horizontal) {
-        this.x = Integer.toString(Integer.parseInt(this.x) + horizontal);
-        this.y = Integer.toString(Integer.parseInt(this.y) + vertical);
+        this.x += horizontal;
+        this.y += vertical;
         return this.toString();
-    }
-
-    /**
-     * Checks if the rectangle has valid properties.
-     *
-     * @return true if the rectangle has valid properties, otherwise false.
-     */
-    @Override
-    public boolean isValid() {
-        String regex = "-?\\d+(\\.\\d+)?";
-        return this.x.matches(regex) && this.y.matches(regex) && this.width.matches(regex) && this.height.matches(regex);
     }
 }

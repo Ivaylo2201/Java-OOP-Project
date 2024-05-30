@@ -114,6 +114,8 @@ public class Translate implements CommandWithParams {
             writer.close();
         } catch (IOException e) {
             System.out.println("An error has occurred!");
+        } catch (NumberFormatException e) {
+            System.out.println("Translation properties must be numbers!");
         }
     }
 }

@@ -22,9 +22,9 @@ public class CircleProcessor implements FigureProcessor {
         List<String> properties = new ArrayList<>();
         Circle circle = (Circle) figure;
 
-        properties.add(circle.getCx());
-        properties.add(circle.getCy());
-        properties.add(circle.getR());
+        properties.add(Integer.toString(circle.getCx()));
+        properties.add(Integer.toString(circle.getCy()));
+        properties.add(Integer.toString(circle.getR()));
         properties.add(circle.getFill());
 
         return properties;

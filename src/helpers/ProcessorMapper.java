@@ -1,5 +1,7 @@
 package helpers;
 
+import exceptions.UnsupportedProcessorTypeException;
+import interfaces.Figure;
 import interfaces.FigureProcessor;
 import processors.CircleProcessor;
 import processors.LineProcessor;
@@ -7,6 +9,7 @@ import processors.RectangleProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * A utility class for managing figure processors.
@@ -23,5 +26,14 @@ public class ProcessorMapper {
         this.processors.put("rectangle", new RectangleProcessor());
         this.processors.put("circle", new CircleProcessor());
         this.processors.put("line", new LineProcessor());
+    }
+
+    public FigureProcessor getProcessor(String processorType) throws UnsupportedProcessorTypeException {
+        FigureProcessor processor = this.processors.get(processorType);
+
+        if (processor != null)
+            return processor;
+        else
+            throw new UnsupportedProcessorTypeException();
     }
 }

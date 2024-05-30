@@ -1,5 +1,9 @@
 package commands;
 
+import exceptions.InvalidAmountOfPropertiesException;
+import exceptions.InvalidRegionPropertiesException;
+import exceptions.UnsupportedProcessorTypeException;
+import exceptions.UnsupportedRegionTypeException;
 import helpers.FigureMapperString;
 import helpers.RegionMapper;
 import interfaces.CommandWithParams;
@@ -53,19 +57,14 @@ public class Within implements CommandWithParams {
 
             List<String> properties = args.subList(1, args.size());
 
-            if (this.regionMapper.regions.containsKey(regionType)) {
-                region = this.regionMapper.regions.get(regionType).apply(properties);
-            } else {
-                System.out.println("Invalid region type!");
-                return;
-            }
+            region = this.regionMapper.getRegion(regionType, properties);
 
             for (String line : fm.getFigures()) {
                 line = line.trim();
                 figure = this.figureMapper.figures.get(line.split(" ")[0]).apply(line);
 
                 if (region.isWithin(figure)) {
-                    toAppend = this.processorMapper.processors.get(figure.getClass().getSimpleName().toLowerCase()).print(figure);
+                    toAppend = this.processorMapper.getProcessor(figure.getClass().getSimpleName().toLowerCase()).print(figure);
                     output.append(idx).append(". ").append(toAppend).append("\n");
                     idx++;
                 }
@@ -76,9 +75,13 @@ public class Within implements CommandWithParams {
             else
                 System.out.println("No figures are located within " + regionType + " " + String.join(" ", properties) + "!");
 
-        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
-            System.out.println("Invalid number of properties!");
-        } catch (NumberFormatException e) {
+        } catch (UnsupportedProcessorTypeException e) {
+            System.out.println("Unsupported processor type!");
+        } catch (UnsupportedRegionTypeException e) {
+            System.out.println("Unsupported region type!");
+        } catch (InvalidAmountOfPropertiesException e) {
+            System.out.println("Invalid amount of properties!");
+        } catch (InvalidRegionPropertiesException e) {
             System.out.println("Invalid region properties!");
         } catch (IOException e) {
             System.out.println("An error has occurred!");

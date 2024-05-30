@@ -1,5 +1,7 @@
 package figures;
 
+import exceptions.InvalidAmountOfPropertiesException;
+import exceptions.InvalidFigurePropertiesException;
 import interfaces.Figure;
 
 import java.util.List;
@@ -8,9 +10,9 @@ import java.util.List;
  * Represents a circle figure in an SVG.
  */
 public class Circle implements Figure {
-    private String cx;
-    private String cy;
-    private final String r;
+    private int cx;
+    private int cy;
+    private final int r;
     private final String fill;
 
     /**
@@ -18,22 +20,28 @@ public class Circle implements Figure {
      *
      * @param properties A List of String properties including cx, cy, r, and fill.
      */
-    public Circle(List<String> properties) {
-        this.cx = properties.get(0);
-        this.cy = properties.get(1);
-        this.r = properties.get(2);
-        this.fill = properties.get(3);
+    public Circle(List<String> properties) throws InvalidFigurePropertiesException, InvalidAmountOfPropertiesException {
+        try {
+            this.cx = Integer.parseInt(properties.get(0));
+            this.cy = Integer.parseInt(properties.get(1));
+            this.r = Integer.parseInt(properties.get(2));
+            this.fill = properties.get(3);
+        } catch (NumberFormatException _) {
+            throw new InvalidFigurePropertiesException();
+        } catch (IndexOutOfBoundsException _) {
+            throw new InvalidAmountOfPropertiesException();
+        }
     }
 
-    public String getCx() {
+    public int getCx() {
         return this.cx;
     }
 
-    public String getCy() {
+    public int getCy() {
         return this.cy;
     }
 
-    public String getR() {
+    public int getR() {
         return this.r;
     }
 
@@ -60,19 +68,8 @@ public class Circle implements Figure {
      */
     @Override
     public String translate(int vertical, int horizontal) {
-        this.cx = Integer.toString(Integer.parseInt(this.cx) + horizontal);
-        this.cy = Integer.toString(Integer.parseInt(this.cy) + vertical);
+        this.cx += horizontal;
+        this.cy += vertical;
         return this.toString();
-    }
-
-    /**
-     * Checks if the circle has valid properties.
-     *
-     * @return true if the circle has valid properties, otherwise false.
-     */
-    @Override
-    public boolean isValid() {
-        String regex = "-?\\d+(\\.\\d+)?";
-        return this.cx.matches(regex) && this.cy.matches(regex) && this.r.matches(regex);
     }
 }

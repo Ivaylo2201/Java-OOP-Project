@@ -20,16 +20,12 @@ public class Application {
         System.out.println("Welcome! Use 'help' to see the list of commands\n");
 
         while (true) {
-            try {
-                System.out.print("> ");
-                commands = scanner.nextLine().split(" ");
+            System.out.print("> ");
+            commands = scanner.nextLine().split(" ");
 
-                System.out.println();
-                ce.execute(commands);
-                System.out.println();
-            } catch (Exception e) {
-                System.out.println("An error has occurred!\n");
-            }
+            System.out.println();
+            ce.execute(commands);
+            System.out.println();
         }
     }
 }
